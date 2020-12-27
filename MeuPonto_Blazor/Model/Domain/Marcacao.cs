@@ -7,9 +7,9 @@ namespace MeuPonto
 {
     public class Marcacao
     {
-        public string Descricao { get; set; }
         public DateTime Inicio { get; set; }
         public DateTime Fim { get; set; }
+        public string Descricao { get; set; }
         public TimeSpan GetIntervalo() => Fim - Inicio;
         public Marcacao(DateTime inicio, DateTime fim, string descricao = "")
         {

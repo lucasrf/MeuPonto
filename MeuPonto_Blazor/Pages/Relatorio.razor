@@ -2,16 +2,15 @@
 @using MeuPonto;
 @using MeuPonto_Blazor.Data
 @inject IJSRuntime js
-@inject EmpresaService empresa
-
+@inject EmpresaService EmpresaService
 <h1>Relatório</h1>
 <p>Selecione o periodo e o codigo do funcionario para que o relatorio seja gerado.</p>
 
 <label>Periodo</label>
 
-<select class="form-control selectpicker" @bind="selectedPeriodo.Referencia">
+<select class="form-control" @bind="EmpresaService.SelectedPeriodo.Referencia">
     <option>Selecione um valor</option>
-    @foreach (var item in empresa.GetEmpresa().Periodos)
+    @foreach (var item in EmpresaService.GetEmpresa().Periodos)
     {
         <option value="@item.Referencia">@item.Descricao</option>
     }
@@ -20,24 +19,26 @@
 <label>Codigo do funcionario</label>
 <input type="text" class="form-control" name="nome" @bind-value="@funcionarioCodigo" @bind-value:event="oninput" placeholder="XXXX" />
 <br />
-<button type="button" class="btn btn-primary" @onclick="@(p => ClickCreateFile("relatorio.pdf"))">Gerar PDF</button>
+<button type="button" class="btn btn-primary" @onclick="@(p => GeneratePDF())">Gerar PDF</button>
 
 
 @code
 {
-    Periodo selectedPeriodo;
     int funcionarioCodigo;
 
-    private void ClickCreateFile(string filename)
+    private void GeneratePDF()
     {
         var pdf = new Blazor_PDF.PDF.Report();
 
-        List<Funcionario> lista = empresa.GetEmpresa().Funcionarios.Where(f => funcionarioCodigo == (f.Codigo)).ToList();
+        List<Funcionario> listaFuncionariosByCodigo = EmpresaService.GetEmpresa().Funcionarios.Where(f => funcionarioCodigo == (f.Codigo)).ToList();
 
-        if (lista.Count > 0)
+        if (listaFuncionariosByCodigo.Count > 0)
         {
-            pdf.Generate(js, filename, lista.First(), selectedPeriodo);
+            Funcionario selectedFuncionario = listaFuncionariosByCodigo[0];
+            pdf.Generate(js, "Relatorio_" +
+                EmpresaService.SelectedPeriodo.Descricao + "_FUNC" +
+                selectedFuncionario.Codigo +
+                ".pdf", listaFuncionariosByCodigo.First(), EmpresaService.SelectedPeriodo);
         }
-
     }
 }

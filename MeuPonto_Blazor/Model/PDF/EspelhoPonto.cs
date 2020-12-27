@@ -17,7 +17,7 @@ namespace Blazor_PDF.PDF
             pdf.Add(funcNome);
 
 
-            List<Ponto> pontos = funcionario.GetMarcacoesByPeriodo(periodo);
+            List<Ponto> pontos = funcionario.GetPontosByPeriodo(periodo);
 
             Table datatable = new Table(3);
             datatable.Padding = 0;

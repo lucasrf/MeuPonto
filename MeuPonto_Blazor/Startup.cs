@@ -28,8 +28,10 @@ namespace MeuPonto_Blazor
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+
             services.AddSingleton<ApontamentoService>();
+            services.AddSingleton<MarcacaoService>();
+            services.AddSingleton<EmpresaService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

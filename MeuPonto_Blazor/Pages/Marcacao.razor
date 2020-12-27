@@ -1,0 +1,34 @@
+﻿@page "/marcacao"
+
+@using MeuPonto_Blazor.Data
+@using MeuPonto;
+@inject EmpresaService EmpresaService;
+@inject MarcacaoService MarcacaoService;
+
+<h1>Marcação</h1>
+
+<p>Insira abaixo a marcação de pontos e atividades para o dia selecionado.</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Inicio</th>
+            <th>Fim</th>
+            <th>Descrição</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var marcacao in marcacoes)
+        {
+        <tr>
+            <td>@marcacao.Inicio</td>
+            <td>@marcacao.Fim</td>
+            <td>@marcacao.Descricao</td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private MeuPonto.Marcacao[] marcacoes = EmpresaService.SelectedPonto.Marcacoes.ToArray();
+}

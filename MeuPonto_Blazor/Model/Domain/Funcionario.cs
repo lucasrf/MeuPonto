@@ -17,7 +17,7 @@ namespace MeuPonto
             Codigo = codigo;
         }
 
-        public List<Ponto> GetMarcacoesByPeriodo(Periodo periodo)
+        public List<Ponto> GetPontosByPeriodo(Periodo periodo)
         {
             List<Ponto> pontos = new List<Ponto>();
             foreach (var ponto in Pontos)

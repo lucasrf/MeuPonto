@@ -8,12 +8,16 @@ namespace MeuPonto_Blazor.Data
 {
     public class EmpresaService : Empresa
     {
-        private static Empresa _empresa;
+        private static Empresa _empresa { get; set; }
+        public static Periodo SelectedPeriodo { get; set; } //Periodo selecionado nas telas de apontamento e relatório
+        public static Ponto SelectedPonto { get; set; } //Ponto selecionado na tela de apontamento
 
         public EmpresaService()
         {
             _empresa = new Empresa();
             Populate();
+            SelectedPeriodo = new Periodo(DateTime.Now); ;
+            SelectedPonto = new Ponto(DateTime.Now);
         }
         public Empresa GetEmpresa()
         {
