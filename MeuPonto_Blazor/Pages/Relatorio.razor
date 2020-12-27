@@ -1,4 +1,5 @@
 ﻿@page "/relatorio"
+@using MeuPonto;
 @inject IJSRuntime js
 
 <h1>Relatório</h1>
@@ -10,16 +11,29 @@
     <option>Novembro/2020</option>
     <option>Dezembro/2020</option>
 </select>
+
+<select class="form-control selectpicker" @bind="selectedPeriodo">
+    <option>Nenhum</option>
+    @foreach (var item in mock.Periodos)
+    {
+        <option value="@item.Descricao">@item.Descricao</option>
+    }
+</select>
+
 <label>Codigo do funcionario</label>
 <input type="email" class="form-control" placeholder="XXXX" />
 <br />
-<button type="button" class="btn btn-primary" @onclick="@(p => ClickCreateFile(1, "relatorio.pdf"))">Gerar PDF</button>
+<button type="button" class="btn btn-primary" @onclick="@(p => ClickCreateFile("relatorio.pdf"))">Gerar PDF</button>
 
 
 @code
-{ private void ClickCreateFile(int pagetype, string filename)
+{ 
+    Empresa mock = new Empresa();
+    Periodo selectedPeriodo = new Empresa().Periodos[0];
+
+    private void ClickCreateFile(string filename)
     {
         var pdf = new Blazor_PDF.PDF.Report();
-        pdf.Generate(js, pagetype, filename);
+        pdf.Generate(js, filename, mock.Funcionarios[0], mock.Periodos[0]);
     }
  }

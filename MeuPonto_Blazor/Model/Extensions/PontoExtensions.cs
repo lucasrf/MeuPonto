@@ -18,7 +18,7 @@ namespace MeuPonto
 
             return marcacoesToString;
         }
-        public static string GetJornada(this Ponto ponto)
+        public static TimeSpan GetJornada(this Ponto ponto)
         {
             TimeSpan somaMarcacoes = TimeSpan.Zero;
 
@@ -27,14 +27,14 @@ namespace MeuPonto
                 somaMarcacoes += marcacao.GetIntervalo();
             }
 
-            return somaMarcacoes.ToString();
+            return somaMarcacoes;
         }
 
         public static PontoExibicao ToPontoExibicao(this Ponto ponto) => new PontoExibicao
         {
             Date = ponto.Date.ToShortDateString(),
             Marcacao = ponto.GetMarcacoes(),
-            Jornada = ponto.GetJornada(),
+            Jornada = ponto.GetJornada().ToString(),
             Observacao = ponto.Observacao
         };
     }

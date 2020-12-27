@@ -2,45 +2,22 @@
 using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
+using MeuPonto;
 using Microsoft.JSInterop;
 
 namespace Blazor_PDF.PDF
 {
     public class Report
     {
-
-        private int _pagenumber;
-
-        public void Generate(IJSRuntime js, int pagenumber, string filename = "report.pdf")
+        public void Generate(IJSRuntime js, string filename, Funcionario funcionario, Periodo periodo)
         {
-            _pagenumber = pagenumber;
-
             js.InvokeVoidAsync( "jsSaveAsFile",
                                 filename,
-                                Convert.ToBase64String(ReportPDF())
+                                Convert.ToBase64String(ReportPDF(funcionario, periodo))
                                 );
         }
 
-        public void OpenToIframe(IJSRuntime js, int pagenumber, string idiFrame)
-        {
-            _pagenumber = pagenumber;
-
-            js.InvokeVoidAsync( "jsOpenToIframe",
-                                idiFrame,
-                                Convert.ToBase64String(ReportPDF())
-                                );
-        }
-        public void OpenNewTab(IJSRuntime js, int pagenumber, string filename = "report.pdf")
-        {
-            _pagenumber = pagenumber;
-
-            js.InvokeVoidAsync( "jsOpenIntoNewTab",
-                                filename,
-                                Convert.ToBase64String(ReportPDF())
-                                );
-        }
-
-        private byte[] ReportPDF()
+        private byte[] ReportPDF(Funcionario funcionario, Periodo periodo)
         {
             var memoryStream = new MemoryStream();
 
@@ -58,20 +35,20 @@ namespace Blazor_PDF.PDF
                                     margeBottom.ToDpi()
                                    );
 
-            pdf.AddTitle("Blazor-PDF");
-            pdf.AddAuthor( "Christophe Peugnet");
+            pdf.AddTitle("Relatório");
+            pdf.AddAuthor( "MeuPonto");
             pdf.AddCreationDate();
-            pdf.AddKeywords("blazor");
-            pdf.AddSubject("Create a pdf file with iText");
+            pdf.AddKeywords("meuponto");
+            pdf.AddSubject("Relatório MeuPonto");
 
             PdfWriter writer = PdfWriter.GetInstance(pdf, memoryStream);
 
             //HEADER and FOOTER
             var fontStyle = FontFactory.GetFont("Arial", 16, BaseColor.White);
-            var labelHeader = new Chunk("Header Blazor PDF", fontStyle);
+            var labelHeader = new Chunk("Relatório de Espelho de Ponto", fontStyle);
             HeaderFooter header = new HeaderFooter(new Phrase(labelHeader), false)
             {
-                BackgroundColor = new BaseColor(133, 76, 199),
+                BackgroundColor = new BaseColor(0,0,0),
                 Alignment = Element.ALIGN_CENTER,
                 Border = Rectangle.NO_BORDER
             };
@@ -89,28 +66,11 @@ namespace Blazor_PDF.PDF
 
             pdf.Open();
 
-
-            if ( _pagenumber == 1 )
-                Page1.PageText(pdf);
-            else if ( _pagenumber == 2 )
-                Page2.PageBookmark(pdf);
-            else if ( _pagenumber == 3 )
-                Page3.PageImage(pdf, writer);
-            else if (_pagenumber == 4)
-                Page4.PageTable(pdf, writer);
-            else if (_pagenumber == 5)
-                Page5.PageFonts(pdf, writer);
-            else if (_pagenumber == 6)
-                Page6.PageList(pdf);
-            else if (_pagenumber == 7)
-                page7.PageShapes(pdf, writer);
+           EspelhoPonto.GeneratePage(pdf, writer, funcionario, periodo);
 
             pdf.Close();
 
             return memoryStream.ToArray();
         }
-
-
-
     }
 }

@@ -34,6 +34,7 @@ namespace MeuPonto
                     funcionario.Pontos.Add(new Ponto(date));
                 }
             }
+            Periodos.Add(new Periodo(periodo));
         }
         public static IEnumerable<DateTime> GetDatesInMonth(int year, int month)
         {

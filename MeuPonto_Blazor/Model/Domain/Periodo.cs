@@ -7,12 +7,17 @@ namespace MeuPonto
 {
     public class Periodo
     {
-        public DateTime Referencia { get; set; }
+        public DateTime Inicio { get; set; }
+        public DateTime Fim { get; set; }
         public string Descricao { get { return GetDescricao(); } }
-
+        public Periodo(DateTime reference)
+        {
+            Inicio = new DateTime(reference.Year, reference.Month, 1);
+            Fim = Inicio.AddMonths(1).AddDays(-1);
+        }
         public string GetDescricao()
         {
-            return Referencia.Month.ToString() + "/" + Referencia.Year.ToString();
+            return Inicio.Month.ToString() + "/" + Inicio.Year.ToString();
         }
     }
 }

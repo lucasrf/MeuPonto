@@ -15,5 +15,18 @@ namespace MeuPonto
         {
             Nome = nome;
         }
+
+        public List<Ponto> GetMarcacoesByPeriodo(Periodo periodo)
+        {
+            List<Ponto> pontos = new List<Ponto>();
+            foreach (var ponto in Pontos)
+            {
+                if (ponto.Date >= periodo.Inicio && ponto.Date <= periodo.Fim)
+                {
+                    pontos.Add(ponto);
+                }
+            }
+            return pontos;
+        }
     }
 }
