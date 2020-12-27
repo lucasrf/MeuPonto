@@ -1,0 +1,25 @@
+﻿@page "/relatorio"
+
+<h1>Relatório</h1>
+
+<p>Selecione o periodo e o codigo do funcionario para que o relatorio seja gerado.</p>
+
+<label>Periodo</label>
+<select class="form-control">
+    <option>Outubro/2020</option>
+    <option>Novembro/2020</option>
+    <option>Dezembro/2020</option>
+</select>
+<label>Codigo do funcionario</label>
+<input type="email" class="form-control" placeholder="XXXX" />
+<br />
+<button type="submit" class="btn btn-primary">Gerar</button>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}
