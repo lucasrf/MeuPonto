@@ -1,7 +1,7 @@
 ﻿@page "/relatorio"
+@inject IJSRuntime js
 
 <h1>Relatório</h1>
-
 <p>Selecione o periodo e o codigo do funcionario para que o relatorio seja gerado.</p>
 
 <label>Periodo</label>
@@ -13,13 +13,13 @@
 <label>Codigo do funcionario</label>
 <input type="email" class="form-control" placeholder="XXXX" />
 <br />
-<button type="submit" class="btn btn-primary">Gerar</button>
+<button type="button" class="btn btn-primary" @onclick="@(p => ClickCreateFile(1, "relatorio.pdf"))">Gerar PDF</button>
 
-@code {
-    private int currentCount = 0;
 
-    private void IncrementCount()
+@code
+{ private void ClickCreateFile(int pagetype, string filename)
     {
-        currentCount++;
+        var pdf = new Blazor_PDF.PDF.Report();
+        pdf.Generate(js, pagetype, filename);
     }
-}
+ }
