@@ -8,4 +8,8 @@
     <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.6.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\Applications\" />
+  </ItemGroup>
+
 </Project>

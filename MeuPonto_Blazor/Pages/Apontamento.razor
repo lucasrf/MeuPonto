@@ -3,6 +3,7 @@
 @using MeuPonto_Blazor.Data
 @using MeuPonto;
 @inject ApontamentoService ApontamentoService
+@inject EmpresaService empresa
 
 <h1>Apontamento</h1>
 
@@ -14,40 +15,43 @@
 }
 else
 {
-    <select class="form-control">
-        <option>Outubro/2020</option>
-        <option>Novembro/2020</option>
-        <option>Dezembro/2020</option>
+    <select class="form-control selectpicker" @bind="selectedPeriodo.Referencia">
+        <option>Selecione um valor</option>
+        @foreach (var item in empresa.GetEmpresa().Periodos)
+        {
+            <option value="@item.Referencia">@item.Descricao</option>
+        }
     </select>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Data</th>
-            <th>Marcacoes</th>
-            <th>Status</th>
-            <th>Observacoes</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var apontamento in apontamentos)
-                    {
-        <tr>
-            <td>@apontamento.Date</td>
-            <td>@apontamento.Marcacao</td>
-            <td>@apontamento.Jornada</td>
-            <td>@apontamento.Observacao</td>
-        </tr>
-                    }
-    </tbody>
-</table>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Marcacoes</th>
+                <th>Status</th>
+                <th>Observacoes</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var apontamento in apontamentos)
+            {
+                <tr>
+                    <td>@apontamento.Date</td>
+                    <td>@apontamento.Marcacao</td>
+                    <td>@apontamento.Jornada</td>
+                    <td>@apontamento.Observacao</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 
 @code {
-        private PontoExibicao[] apontamentos;
+    private PontoExibicao[] apontamentos;
+    Periodo selectedPeriodo;
 
-protected override async Task OnInitializedAsync()
-{
+    protected override async Task OnInitializedAsync()
+    {
         apontamentos = await ApontamentoService.GetApontamentos();
-}
+    }
 }

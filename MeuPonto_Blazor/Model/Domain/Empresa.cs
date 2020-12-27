@@ -11,20 +11,8 @@ namespace MeuPonto
         public List<Periodo> Periodos { get; set; } = new List<Periodo>();
         public Empresa()
         {
-            Populate();
         }
-        public void Populate()
-        {
-            Funcionarios.Add(new Funcionario("Joao da Silva"));
-
-            AbrirPeriodo(new DateTime(2020, 12, 1));
-
-            Funcionarios.First().Pontos[0].Marcacoes.Add(new Marcacao(new DateTime(2020, 12, 01, 08, 00, 00), new DateTime(2020, 12, 01, 12, 00, 00)));
-            Funcionarios.First().Pontos[0].Marcacoes.Add(new Marcacao(new DateTime(2020, 12, 01, 13, 00, 00), new DateTime(2020, 12, 01, 18, 00, 00)));
-
-            Funcionarios.First().Pontos[1].Marcacoes.Add(new Marcacao(new DateTime(2020, 12, 01, 07, 00, 00), new DateTime(2020, 12, 01, 12, 00, 00)));
-            Funcionarios.First().Pontos[1].Marcacoes.Add(new Marcacao(new DateTime(2020, 12, 01, 13, 00, 00), new DateTime(2020, 12, 01, 17, 00, 00)));
-        }
+        
         public void AbrirPeriodo(DateTime periodo)
         {
             foreach (DateTime date in GetDatesInMonth(periodo.Year, periodo.Month))

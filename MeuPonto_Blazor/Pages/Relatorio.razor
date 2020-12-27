@@ -1,39 +1,43 @@
 ﻿@page "/relatorio"
 @using MeuPonto;
+@using MeuPonto_Blazor.Data
 @inject IJSRuntime js
+@inject EmpresaService empresa
 
 <h1>Relatório</h1>
 <p>Selecione o periodo e o codigo do funcionario para que o relatorio seja gerado.</p>
 
 <label>Periodo</label>
-<select class="form-control">
-    <option>Outubro/2020</option>
-    <option>Novembro/2020</option>
-    <option>Dezembro/2020</option>
-</select>
 
-<select class="form-control selectpicker" @bind="selectedPeriodo">
-    <option>Nenhum</option>
-    @foreach (var item in mock.Periodos)
+<select class="form-control selectpicker" @bind="selectedPeriodo.Referencia">
+    <option>Selecione um valor</option>
+    @foreach (var item in empresa.GetEmpresa().Periodos)
     {
-        <option value="@item.Descricao">@item.Descricao</option>
+        <option value="@item.Referencia">@item.Descricao</option>
     }
 </select>
 
 <label>Codigo do funcionario</label>
-<input type="email" class="form-control" placeholder="XXXX" />
+<input type="text" class="form-control" name="nome" @bind-value="@funcionarioCodigo" @bind-value:event="oninput" placeholder="XXXX" />
 <br />
 <button type="button" class="btn btn-primary" @onclick="@(p => ClickCreateFile("relatorio.pdf"))">Gerar PDF</button>
 
 
 @code
-{ 
-    Empresa mock = new Empresa();
-    Periodo selectedPeriodo = new Empresa().Periodos[0];
+{
+    Periodo selectedPeriodo;
+    int funcionarioCodigo;
 
     private void ClickCreateFile(string filename)
     {
         var pdf = new Blazor_PDF.PDF.Report();
-        pdf.Generate(js, filename, mock.Funcionarios[0], mock.Periodos[0]);
+
+        List<Funcionario> lista = empresa.GetEmpresa().Funcionarios.Where(f => funcionarioCodigo == (f.Codigo)).ToList();
+
+        if (lista.Count > 0)
+        {
+            pdf.Generate(js, filename, lista.First(), selectedPeriodo);
+        }
+
     }
- }
+}

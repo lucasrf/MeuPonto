@@ -11,9 +11,10 @@ namespace MeuPonto
         public string Nome { get; set; }
         public List<Ponto> Pontos { get; set; } = new List<Ponto>();
 
-        public Funcionario(string nome)
+        public Funcionario(string nome, int codigo)
         {
             Nome = nome;
+            Codigo = codigo;
         }
 
         public List<Ponto> GetMarcacoesByPeriodo(Periodo periodo)

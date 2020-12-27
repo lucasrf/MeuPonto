@@ -1,6 +1,6 @@
 ﻿namespace Blazor_PDF
 {
-    public static class Extensions
+    public static class PdfExtensions
     {
         public static float ToDpi(this float centimeter)
         {

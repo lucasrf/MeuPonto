@@ -1,4 +1,4 @@
-﻿namespace MeuPonto
+﻿namespace MeuPonto_Blazor.Data
 {
     public struct PontoExibicao
     {
