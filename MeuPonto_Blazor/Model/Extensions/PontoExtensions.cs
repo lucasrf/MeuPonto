@@ -50,12 +50,5 @@ namespace MeuPonto
             }
             return resultado;
         }
-        public static PontoExibicao ToPontoExibicao(this Ponto ponto) => new PontoExibicao
-        {
-            Date = ponto.Date.ToShortDateString(),
-            Marcacao = ponto.GetMarcacoes(),
-            Jornada = ponto.GetJornada().ToString(),
-            Observacao = ponto.Observacao
-        };
     }
 }

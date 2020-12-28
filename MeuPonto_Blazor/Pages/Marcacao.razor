@@ -5,11 +5,24 @@
 @inject EmpresaService EmpresaService;
 @inject MarcacaoService MarcacaoService;
 
-<h1>Marcação</h1>
+<h6> @EmpresaService.SelectedPonto.Date.DayOfWeek, @EmpresaService.SelectedPonto.Date.ToShortDateString()</h6>
+<h2>Marcações</h2>
 
-<p>Insira abaixo a marcação de pontos e atividades para o dia selecionado.</p>
-
-<table class="table" id="just-line-break">
+<form>
+    <div class="row">
+        <div class="col">
+            <input type="time" class="form-control" placeholder="Inicio" @bind="NovaMarcacaoInicio">
+        </div>
+        <div class="col">
+            <input type="time" class="form-control" placeholder="Fim" @bind="NovaMarcacaoFim">
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-primary" @onclick="@(p => InsertMarcacao())">Adicionar</button>
+        </div>
+    </div>
+</form>
+<br />
+<table class="table">
     <thead>
         <tr>
             <th width="115">Inicio</th>
@@ -21,27 +34,79 @@
     <tbody>
         @foreach (var marcacao in marcacoes)
         {
-        <tr>
-            <td align="center"><input type="text" class="form-control" placeholder="Inicio" @bind="@marcacao.Inicio" /></td>
-            <td align="center"><input type="text" class="form-control" placeholder="Fim" @bind="@marcacao.Fim" /></td>
-            <td align="center">@marcacao.GetIntervalo()</td>
-            <td><input type="text" class="form-control" placeholder="Observacoes" @bind="@marcacao.Descricao" /></td>
-        </tr>
+            <tr>
+                <td align="center"><input type="text" class="form-control" placeholder="Inicio" @bind="@marcacao.Inicio" /></td>
+                <td align="center"><input type="text" class="form-control" placeholder="Fim" @bind="@marcacao.Fim" /></td>
+                <td align="center">@marcacao.GetIntervalo()</td>
+                <td><input type="text" class="form-control" placeholder="Observacoes" @bind="@marcacao.Descricao" /></td>
+            </tr>
         }
     </tbody>
-    <tfoot>
+    <tfoot class="alert-light" id="just-line-break">
         <tr>
-            <td colspan="3" align="left">@EmpresaService.SelectedPonto.GetDescricaoJornada()</td>
+            <td colspan="4">@EmpresaService.SelectedPonto.GetDescricaoJornada()</td>
         </tr>
     </tfoot>
 </table>
 
-<h1>Atividades</h1>
-<p>Insira as atividade do dia.</p>
+<h2>Atividades</h2>
+
+<form>
+    <div class="row">
+        <div class="col">
+            <input type="time" class="form-control" placeholder="Trabalhado" @bind="NovaAtividadeDuracao">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Descrição" @bind="NovaAtividadeDescricao">
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-primary" @onclick="@(p => InsertAtividade())">Adicionar</button>
+        </div>
+    </div>
+</form>
+<br />
+<table class="table" id="just-line-break">
+    <thead>
+        <tr>
+            <th width="115">Trabalhado</th>
+            <th>Atividade</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var atividade in atividades)
+        {
+            <tr>
+                <td align="center">@atividade.Tempo</td>
+                <td><input type="text" class="form-control" placeholder="Observacoes" @bind="@atividade.Descricao" /></td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @code {
     private MeuPonto.Marcacao[] marcacoes = EmpresaService.SelectedPonto.Marcacoes.ToArray();
+    private MeuPonto.Atividade[] atividades = EmpresaService.SelectedPonto.Atividades.ToArray();
+    public DateTime NovaMarcacaoInicio { get; set; }
+    public DateTime NovaMarcacaoFim { get; set; }
+    public DateTime NovaAtividadeDuracao { get; set; }
+    public string NovaAtividadeDescricao { get; set; }
 
-    public TimeSpan Inicio { get; set; }
-    public TimeSpan Fim { get; set; }
+    public void InsertMarcacao()
+    {
+        if (NovaMarcacaoInicio.TimeOfDay != TimeSpan.Zero && NovaMarcacaoFim.TimeOfDay != TimeSpan.Zero)
+        {
+            EmpresaService.SelectedPonto.Marcacoes.Add(new MeuPonto.Marcacao(NovaMarcacaoInicio.TimeOfDay, NovaMarcacaoFim.TimeOfDay));
+            marcacoes = EmpresaService.SelectedPonto.Marcacoes.ToArray();
+
+        }
+    }
+    public void InsertAtividade()
+    {
+        if (NovaAtividadeDuracao.TimeOfDay != TimeSpan.Zero)
+        {
+            EmpresaService.SelectedPonto.Atividades.Add(new MeuPonto.Atividade(NovaAtividadeDuracao.TimeOfDay, NovaAtividadeDescricao));
+            atividades = EmpresaService.SelectedPonto.Atividades.ToArray();
+
+        }
+    }
 }

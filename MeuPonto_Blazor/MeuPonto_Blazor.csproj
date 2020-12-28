@@ -5,11 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.6.5" />
+    <Compile Remove="Model\Applications\**" />
+    <Content Remove="Model\Applications\**" />
+    <EmbeddedResource Remove="Model\Applications\**" />
+    <None Remove="Model\Applications\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Model\Applications\" />
+    <PackageReference Include="iTextSharp.LGPLv2.Core" Version="1.6.5" />
   </ItemGroup>
 
 </Project>

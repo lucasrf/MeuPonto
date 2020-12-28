@@ -7,23 +7,18 @@
 @inject NavigationManager NavManager
 
 <h1>Apontamento</h1>
-
 <p>Marque abaixo o apontamento de horas conforme periodo selecionado.</p>
 
-@if (apontamentos == null)
-{
-    <p><em>Carregando...</em></p>
-}
-else
-{
-    <select class="form-control selectpicker" @bind="EmpresaService.SelectedPeriodo.Referencia" ontimeupdate="@UpdateApontamento();">
-        <option>Selecione um valor</option>
-        @foreach (var item in EmpresaService.GetEmpresa().Periodos)
-        {
-            <option value="@item.Referencia">@item.Descricao</option>
-        }
-    </select>
+<select class="form-control selectpicker" @bind="EmpresaService.SelectedPeriodo.Referencia" ontimeupdate="@UpdateApontamento();">
+    <option>Selecione um valor</option>
+    @foreach (var item in EmpresaService.GetEmpresa().Periodos)
+    {
+        <option value="@item.Referencia">@item.Descricao</option>
+    }
+</select>
 
+@if (apontamentos != null)
+{
     <table class="table">
         <thead>
             <tr>
@@ -31,6 +26,7 @@ else
                 <th>Marcacoes</th>
                 <th>Status</th>
                 <th>Observacoes</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -41,9 +37,7 @@ else
                     <td>@apontamento.GetMarcacoes()</td>
                     <td>@apontamento.GetJornada().ToString()</td>
                     <td>@apontamento.Observacao</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="() => RedirectMarcacao(apontamento)">Editar</button>
-                    </td>
+                    <td><button class="btn btn-primary" @onclick="() => RedirectMarcacao(apontamento)">Editar</button></td>
                 </tr>
             }
         </tbody>
@@ -57,15 +51,16 @@ else
     {
         await UpdateApontamento();
     }
-
+    public async Task UpdateApontamento()
+    {
+        if (EmpresaService.SelectedPeriodo.Referencia != DateTime.MinValue)
+        {
+            apontamentos = await ApontamentoService.GetApontamentos(EmpresaService.GetEmpresa().Funcionarios.First(), EmpresaService.SelectedPeriodo);
+        }
+    }
     private void RedirectMarcacao(Ponto selectedPonto)
     {
         EmpresaService.SelectedPonto = selectedPonto;
         NavManager.NavigateTo("/marcacao");
-    }
-
-    public async Task UpdateApontamento()
-    {
-        apontamentos = await ApontamentoService.GetApontamentos(EmpresaService.GetEmpresa().Funcionarios.First(), EmpresaService.SelectedPeriodo);
     }
 }

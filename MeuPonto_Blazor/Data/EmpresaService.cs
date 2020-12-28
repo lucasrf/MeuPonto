@@ -18,8 +18,8 @@ namespace MeuPonto_Blazor.Data
         {
             _empresa = new Empresa();
             Populate();
-            SelectedPeriodo = new Periodo(DateTime.Now); ;
-            SelectedPonto = new Ponto(DateTime.Now);
+            SelectedPeriodo = new Periodo(DateTime.MinValue); ;
+            SelectedPonto = new Ponto(DateTime.MinValue);
         }
         public Empresa GetEmpresa()
         {

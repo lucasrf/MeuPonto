@@ -7,10 +7,12 @@ namespace MeuPonto
 {
     public class Atividade
     {
-        public int Id { get; set; }
         public string Descricao { get; set; }
-        public DateTime Inicio { get; set; }
-        public DateTime Fim { get; set; }
-        public TimeSpan GetInterval() => Fim - Inicio;
+        public TimeSpan Tempo { get; set; }
+        public Atividade(TimeSpan tempo, string descricao = "")
+        {
+            Descricao = descricao;
+            Tempo = tempo;
+        }
     }
 }
