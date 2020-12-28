@@ -14,7 +14,7 @@ namespace MeuPonto
 
             foreach (Marcacao marcacao in ponto.Marcacoes)
             {
-                marcacoesToString += marcacao.Inicio.ToShortTimeString() + " | " + marcacao.Fim.ToShortTimeString() + " |";
+                marcacoesToString += marcacao.Inicio + " | " + marcacao.Fim + " |";
             }
 
             return marcacoesToString;
@@ -30,7 +30,26 @@ namespace MeuPonto
 
             return somaMarcacoes;
         }
+        public static string GetDescricaoJornada(this Ponto ponto)
+        {
+            string resultado = "";
 
+            if (ponto.GetJornada() >= EmpresaService.JornadaDiaria - new TimeSpan(00, 10, 00))
+            {
+                resultado += "Horas normais: 08:45:00 \n";
+
+                if (ponto.GetJornada() >= EmpresaService.JornadaDiaria + new TimeSpan(00, 10, 00))
+                {
+                    resultado += "Horas extras: " + (ponto.GetJornada() - EmpresaService.JornadaDiaria) + "\n";
+                }
+            }
+            else
+            {
+                resultado += "Horas normais: " + ponto.GetJornada() + "\n";
+                resultado += "Horas atraso: " + (EmpresaService.JornadaDiaria - ponto.GetJornada());
+            }
+            return resultado;
+        }
         public static PontoExibicao ToPontoExibicao(this Ponto ponto) => new PontoExibicao
         {
             Date = ponto.Date.ToShortDateString(),

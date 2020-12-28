@@ -2,6 +2,7 @@
 {
     public struct PontoExibicao
     {
+        public string Id { get; set; }
         public string Date { get; set; }
         public string Marcacao { get; set; }
         public string Jornada { get; set; }

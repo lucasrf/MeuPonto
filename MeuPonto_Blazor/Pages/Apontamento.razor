@@ -37,14 +37,12 @@ else
             @foreach (var apontamento in apontamentos)
             {
                 <tr>
-                    <td>@apontamento.Date</td>
-                    <td>@apontamento.Marcacao</td>
-                    <td>@apontamento.Jornada</td>
+                    <td>@apontamento.Date.ToShortDateString()</td>
+                    <td>@apontamento.GetMarcacoes()</td>
+                    <td>@apontamento.GetJornada().ToString()</td>
                     <td>@apontamento.Observacao</td>
                     <td>
-                        <button class="btn btn-primary" onclick="@RedirectMarcacao()" style="width:80px;">
-                            Editar
-                        </button>
+                        <button class="btn btn-primary" @onclick="() => RedirectMarcacao(apontamento)">Editar</button>
                     </td>
                 </tr>
             }
@@ -53,15 +51,16 @@ else
 }
 
 @code {
-    private PontoExibicao[] apontamentos;
+    private Ponto[] apontamentos;
 
     protected override async Task OnInitializedAsync()
     {
         await UpdateApontamento();
     }
 
-    private async Task RedirectMarcacao()
+    private void RedirectMarcacao(Ponto selectedPonto)
     {
+        EmpresaService.SelectedPonto = selectedPonto;
         NavManager.NavigateTo("/marcacao");
     }
 

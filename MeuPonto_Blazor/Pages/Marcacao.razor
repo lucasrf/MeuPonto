@@ -9,26 +9,39 @@
 
 <p>Insira abaixo a marcação de pontos e atividades para o dia selecionado.</p>
 
-<table class="table">
+<table class="table" id="just-line-break">
     <thead>
         <tr>
-            <th>Inicio</th>
-            <th>Fim</th>
-            <th>Descrição</th>
+            <th width="115">Inicio</th>
+            <th width="115">Fim</th>
+            <th width="115">Trabalhado</th>
+            <th>Observações</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var marcacao in marcacoes)
         {
         <tr>
-            <td>@marcacao.Inicio</td>
-            <td>@marcacao.Fim</td>
-            <td>@marcacao.Descricao</td>
+            <td align="center"><input type="text" class="form-control" placeholder="Inicio" @bind="@marcacao.Inicio" /></td>
+            <td align="center"><input type="text" class="form-control" placeholder="Fim" @bind="@marcacao.Fim" /></td>
+            <td align="center">@marcacao.GetIntervalo()</td>
+            <td><input type="text" class="form-control" placeholder="Observacoes" @bind="@marcacao.Descricao" /></td>
         </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="3" align="left">@EmpresaService.SelectedPonto.GetDescricaoJornada()</td>
+        </tr>
+    </tfoot>
 </table>
+
+<h1>Atividades</h1>
+<p>Insira as atividade do dia.</p>
 
 @code {
     private MeuPonto.Marcacao[] marcacoes = EmpresaService.SelectedPonto.Marcacoes.ToArray();
+
+    public TimeSpan Inicio { get; set; }
+    public TimeSpan Fim { get; set; }
 }

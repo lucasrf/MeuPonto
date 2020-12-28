@@ -12,6 +12,8 @@ namespace MeuPonto_Blazor.Data
         public static Periodo SelectedPeriodo { get; set; } //Periodo selecionado nas telas de apontamento e relatório
         public static Ponto SelectedPonto { get; set; } //Ponto selecionado na tela de apontamento
 
+        public static TimeSpan JornadaDiaria { get { return new TimeSpan(08, 45, 00); } }
+
         public EmpresaService()
         {
             _empresa = new Empresa();
@@ -34,10 +36,10 @@ namespace MeuPonto_Blazor.Data
             _empresa.AbrirPeriodo(new DateTime(2020, 11, 1));
             _empresa.AbrirPeriodo(new DateTime(2020, 10, 1));
 
-            _empresa.Funcionarios.First().Pontos[0].Marcacoes.Add(new Marcacao(new DateTime(2020, 12, 01, 08, 00, 00), new DateTime(2020, 12, 01, 12, 00, 00)));
-            _empresa.Funcionarios.First().Pontos[0].Marcacoes.Add(new Marcacao(new DateTime(2020, 12, 01, 13, 00, 00), new DateTime(2020, 12, 01, 18, 00, 00)));
-            _empresa.Funcionarios.First().Pontos[1].Marcacoes.Add(new Marcacao(new DateTime(2020, 12, 01, 07, 00, 00), new DateTime(2020, 12, 01, 12, 00, 00)));
-            _empresa.Funcionarios.First().Pontos[1].Marcacoes.Add(new Marcacao(new DateTime(2020, 12, 01, 13, 00, 00), new DateTime(2020, 12, 01, 17, 00, 00)));
+            _empresa.Funcionarios.First().Pontos[0].Marcacoes.Add(new Marcacao(new TimeSpan(08, 00, 00), new TimeSpan(12, 00, 00)));
+            _empresa.Funcionarios.First().Pontos[0].Marcacoes.Add(new Marcacao(new TimeSpan(13, 00, 00), new TimeSpan(18, 00, 00)));
+            _empresa.Funcionarios.First().Pontos[1].Marcacoes.Add(new Marcacao(new TimeSpan(07, 00, 00), new TimeSpan(12, 00, 00)));
+            _empresa.Funcionarios.First().Pontos[1].Marcacoes.Add(new Marcacao(new TimeSpan(13, 00, 00), new TimeSpan(17, 00, 00)));
         }
     }
 }

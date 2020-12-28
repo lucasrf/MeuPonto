@@ -14,6 +14,10 @@ a, .btn-link {
     border-color: #1861ac;
 }
 
+#just-line-break {
+    white-space: pre-line;
+}
+
 app {
     position: relative;
     display: flex;

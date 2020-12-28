@@ -8,17 +8,7 @@ namespace MeuPonto_Blazor.Data
 {
     public class ApontamentoService
     {
-        public Task<PontoExibicao[]> GetApontamentos(Funcionario funcionario, Periodo periodo)
-        {
-            List<Ponto> listaPonto = funcionario.GetPontosByPeriodo(periodo);
-            List<PontoExibicao> exibicao = new List<PontoExibicao>();
-
-            foreach (Ponto ponto in listaPonto)
-            {
-                exibicao.Add(ponto.ToPontoExibicao());
-            }
-
-            return Task.FromResult(exibicao.ToArray());
-        }
+        public Task<Ponto[]> GetApontamentos(Funcionario funcionario, Periodo periodo) => 
+            Task.FromResult(funcionario.GetPontosByPeriodo(periodo).ToArray());
     }
 }
