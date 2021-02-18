@@ -97,7 +97,6 @@
         {
             EmpresaService.SelectedPonto.Marcacoes.Add(new MeuPonto.Marcacao(NovaMarcacaoInicio.TimeOfDay, NovaMarcacaoFim.TimeOfDay));
             marcacoes = EmpresaService.SelectedPonto.Marcacoes.ToArray();
-
         }
     }
     public void InsertAtividade()
@@ -106,7 +105,6 @@
         {
             EmpresaService.SelectedPonto.Atividades.Add(new MeuPonto.Atividade(NovaAtividadeDuracao.TimeOfDay, NovaAtividadeDescricao));
             atividades = EmpresaService.SelectedPonto.Atividades.ToArray();
-
         }
     }
 }

@@ -36,7 +36,8 @@
         {
             Funcionario selectedFuncionario = listaFuncionariosByCodigo[0];
             pdf.Generate(js, "Relatorio_" +
-                EmpresaService.SelectedPeriodo.Descricao + "_FUNC" +
+                EmpresaService.SelectedPeriodo.Descricao +
+                "_FUNC" +
                 selectedFuncionario.Codigo +
                 ".pdf", listaFuncionariosByCodigo.First(), EmpresaService.SelectedPeriodo);
         }
