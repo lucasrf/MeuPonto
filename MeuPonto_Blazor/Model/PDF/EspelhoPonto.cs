@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using MeuPonto;
+using MeuPonto_Blazor;
 
 namespace Blazor_PDF.PDF
 {

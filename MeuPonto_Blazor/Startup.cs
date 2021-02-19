@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MeuPonto_Blazor.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 
 namespace MeuPonto_Blazor
 {
@@ -32,6 +34,23 @@ namespace MeuPonto_Blazor
             services.AddSingleton<ApontamentoService>();
             services.AddSingleton<MarcacaoService>();
             services.AddSingleton<EmpresaService>();
+            services.AddSingleton<MainService>();
+
+            services.AddScoped<EmpresaService>();
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            if (!services.Any(x => x.ServiceType == typeof(HttpClient)))
+            {
+                // Configura o HttpClient para o lado do servidor
+                services.AddScoped<HttpClient>(s =>
+                {
+                    var uriHelper = s.GetRequiredService<NavigationManager>();
+                    return new HttpClient
+                    {
+                        BaseAddress = new Uri(uriHelper.BaseUri)
+                    };
+                });
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +74,7 @@ namespace MeuPonto_Blazor
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });

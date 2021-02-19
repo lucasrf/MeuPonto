@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MeuPonto_Blazor.Data;
 
-namespace MeuPonto
+namespace MeuPonto_Blazor
 {
     public static class PontoExtensions
     {
@@ -34,19 +34,19 @@ namespace MeuPonto
         {
             string resultado = "";
 
-            if (ponto.GetJornada() >= EmpresaService.JornadaDiaria - new TimeSpan(00, 10, 00))
+            if (ponto.GetJornada() >= MainService.JornadaDiaria - new TimeSpan(00, 10, 00))
             {
                 resultado += "Horas normais: 08:45:00 \n";
 
-                if (ponto.GetJornada() >= EmpresaService.JornadaDiaria + new TimeSpan(00, 10, 00))
+                if (ponto.GetJornada() >= MainService.JornadaDiaria + new TimeSpan(00, 10, 00))
                 {
-                    resultado += "Horas extras: " + (ponto.GetJornada() - EmpresaService.JornadaDiaria) + "\n";
+                    resultado += "Horas extras: " + (ponto.GetJornada() - MainService.JornadaDiaria) + "\n";
                 }
             }
             else
             {
                 resultado += "Horas normais: " + ponto.GetJornada() + "\n";
-                resultado += "Horas atraso: " + (EmpresaService.JornadaDiaria - ponto.GetJornada());
+                resultado += "Horas atraso: " + (MainService.JornadaDiaria - ponto.GetJornada());
             }
             return resultado;
         }

@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MeuPonto
+namespace MeuPonto_Blazor
 {
     public class Funcionario
     {
+        [Key]
         public int Codigo { get; set; }
+        [Required]
         public string Nome { get; set; }
         public List<Ponto> Pontos { get; set; } = new List<Ponto>();
 
         public Funcionario(string nome, int codigo)
         {
+            Codigo = 0;
             Nome = nome;
             Codigo = codigo;
         }

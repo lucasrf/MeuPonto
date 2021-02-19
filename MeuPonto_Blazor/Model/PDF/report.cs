@@ -2,7 +2,7 @@
 using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using MeuPonto;
+using MeuPonto_Blazor;
 using Microsoft.JSInterop;
 
 namespace Blazor_PDF.PDF

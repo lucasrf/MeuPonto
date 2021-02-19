@@ -1,11 +1,11 @@
 ﻿@page "/marcacao"
 
 @using MeuPonto_Blazor.Data
-@using MeuPonto;
-@inject EmpresaService EmpresaService;
+@using MeuPonto_Blazor;
+@inject MainService MainService;
 @inject MarcacaoService MarcacaoService;
 
-<h6> @EmpresaService.SelectedPonto.Date.DayOfWeek, @EmpresaService.SelectedPonto.Date.ToShortDateString()</h6>
+<h6> @MainService.SelectedPonto.Date.DayOfWeek, @MainService.SelectedPonto.Date.ToShortDateString()</h6>
 <h2>Marcações</h2>
 
 <form>
@@ -44,7 +44,7 @@
     </tbody>
     <tfoot class="alert-light" id="just-line-break">
         <tr>
-            <td colspan="4">@EmpresaService.SelectedPonto.GetDescricaoJornada()</td>
+            <td colspan="4">@MainService.SelectedPonto.GetDescricaoJornada()</td>
         </tr>
     </tfoot>
 </table>
@@ -84,8 +84,8 @@
 </table>
 
 @code {
-    private MeuPonto.Marcacao[] marcacoes = EmpresaService.SelectedPonto.Marcacoes.ToArray();
-    private MeuPonto.Atividade[] atividades = EmpresaService.SelectedPonto.Atividades.ToArray();
+    private MeuPonto_Blazor.Marcacao[] marcacoes = MainService.SelectedPonto.Marcacoes.ToArray();
+    private MeuPonto_Blazor.Atividade[] atividades = MainService.SelectedPonto.Atividades.ToArray();
     public DateTime NovaMarcacaoInicio { get; set; }
     public DateTime NovaMarcacaoFim { get; set; }
     public DateTime NovaAtividadeDuracao { get; set; }
@@ -95,16 +95,16 @@
     {
         if (NovaMarcacaoInicio.TimeOfDay != TimeSpan.Zero && NovaMarcacaoFim.TimeOfDay != TimeSpan.Zero)
         {
-            EmpresaService.SelectedPonto.Marcacoes.Add(new MeuPonto.Marcacao(NovaMarcacaoInicio.TimeOfDay, NovaMarcacaoFim.TimeOfDay));
-            marcacoes = EmpresaService.SelectedPonto.Marcacoes.ToArray();
+            MainService.SelectedPonto.Marcacoes.Add(new MeuPonto_Blazor.Marcacao(NovaMarcacaoInicio.TimeOfDay, NovaMarcacaoFim.TimeOfDay));
+            marcacoes = MainService.SelectedPonto.Marcacoes.ToArray();
         }
     }
     public void InsertAtividade()
     {
         if (NovaAtividadeDuracao.TimeOfDay != TimeSpan.Zero)
         {
-            EmpresaService.SelectedPonto.Atividades.Add(new MeuPonto.Atividade(NovaAtividadeDuracao.TimeOfDay, NovaAtividadeDescricao));
-            atividades = EmpresaService.SelectedPonto.Atividades.ToArray();
+            MainService.SelectedPonto.Atividades.Add(new MeuPonto_Blazor.Atividade(NovaAtividadeDuracao.TimeOfDay, NovaAtividadeDescricao));
+            atividades = MainService.SelectedPonto.Atividades.ToArray();
         }
     }
 }

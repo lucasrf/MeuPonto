@@ -1,16 +1,17 @@
 ﻿@page "/relatorio"
-@using MeuPonto;
-@using MeuPonto_Blazor.Data
+@using MeuPonto_Blazor;
+@using MeuPonto_Blazor.Data;
+
 @inject IJSRuntime js
-@inject EmpresaService EmpresaService
+@inject MainService MainService
 <h1>Relatório</h1>
 <p>Selecione o periodo e o codigo do funcionario para que o relatorio seja gerado.</p>
 
 <label>Periodo</label>
 
-<select class="form-control" @bind="EmpresaService.SelectedPeriodo.Referencia">
+<select class="form-control" @bind="MainService.SelectedPeriodo.Referencia">
     <option>Selecione um valor</option>
-    @foreach (var item in EmpresaService.GetEmpresa().Periodos)
+    @foreach (var item in MainService.GetEmpresa().Periodos)
     {
         <option value="@item.Referencia">@item.Descricao</option>
     }
@@ -30,16 +31,16 @@
     {
         var pdf = new Blazor_PDF.PDF.Report();
 
-        List<Funcionario> listaFuncionariosByCodigo = EmpresaService.GetEmpresa().Funcionarios.Where(f => funcionarioCodigo == (f.Codigo)).ToList();
+        List<Funcionario> listaFuncionariosByCodigo = MainService.GetEmpresa().Funcionarios.Where(f => funcionarioCodigo == (f.Codigo)).ToList();
 
         if (listaFuncionariosByCodigo.Count > 0)
         {
             Funcionario selectedFuncionario = listaFuncionariosByCodigo[0];
             pdf.Generate(js, "Relatorio_" +
-                EmpresaService.SelectedPeriodo.Descricao +
+                MainService.SelectedPeriodo.Descricao +
                 "_FUNC" +
                 selectedFuncionario.Codigo +
-                ".pdf", listaFuncionariosByCodigo.First(), EmpresaService.SelectedPeriodo);
+                ".pdf", listaFuncionariosByCodigo.First(), MainService.SelectedPeriodo);
         }
     }
 }

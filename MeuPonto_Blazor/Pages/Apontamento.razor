@@ -1,17 +1,17 @@
 ﻿@page "/apontamento"
 
 @using MeuPonto_Blazor.Data
-@using MeuPonto;
-@inject EmpresaService EmpresaService
+@using MeuPonto_Blazor;
+@inject MainService MainService
 @inject ApontamentoService ApontamentoService
 @inject NavigationManager NavManager
 
 <h1>Apontamento</h1>
 <p>Marque abaixo o apontamento de horas conforme periodo selecionado.</p>
 
-<select class="form-control selectpicker" @bind="EmpresaService.SelectedPeriodo.Referencia" ontimeupdate="@UpdateApontamento();">
+<select class="form-control selectpicker" @bind="MainService.SelectedPeriodo.Referencia" ontimeupdate="@UpdateApontamento();">
     <option>Selecione um valor</option>
-    @foreach (var item in EmpresaService.GetEmpresa().Periodos)
+    @foreach (var item in MainService.GetEmpresa().Periodos)
     {
         <option value="@item.Referencia">@item.Descricao</option>
     }
@@ -53,14 +53,14 @@
     }
     public async Task UpdateApontamento()
     {
-        if (EmpresaService.SelectedPeriodo.Referencia != DateTime.MinValue)
+        if (MainService.SelectedPeriodo.Referencia != DateTime.MinValue)
         {
-            apontamentos = await ApontamentoService.GetApontamentos(EmpresaService.GetEmpresa().Funcionarios.First(), EmpresaService.SelectedPeriodo);
+            apontamentos = await ApontamentoService.GetApontamentos(MainService.GetEmpresa().Funcionarios.First(), MainService.SelectedPeriodo);
         }
     }
     private void RedirectMarcacao(Ponto selectedPonto)
     {
-        EmpresaService.SelectedPonto = selectedPonto;
+        MainService.SelectedPonto = selectedPonto;
         NavManager.NavigateTo("/marcacao");
     }
 }
